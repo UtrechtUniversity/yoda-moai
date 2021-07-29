@@ -99,7 +99,7 @@ class OAIDC(object):
                     if isinstance(list_subjects, list)==False:
                         list_subjects = [list_subjects]
                     for subject in list_subjects:
-                        if isinstance(subject, basestring) and len(subject):
+                        if isinstance(subject, str) and len(subject):
                             oai_dc.append(DC.subject(subject))
                 except (IndexError,KeyError) as e:
                     continue
