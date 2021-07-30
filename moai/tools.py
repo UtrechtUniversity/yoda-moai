@@ -106,9 +106,6 @@ def update_moai():
         sys.stderr.write('Unknown provider: %s\n' % (provider_name,))
         sys.exit(1)
 
-    if options.set:
-        provider.set_set(options.set)
-
     log = get_moai_log()
     provider.set_logger(log)
 
