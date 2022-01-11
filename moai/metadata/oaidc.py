@@ -97,7 +97,6 @@ class OAIDC(object):
                               "Ancillary_Equipment",
                               "Inferred_Deformation_Behaviour"]
 
-
             for subject_field in subject_fields:
                 try:
                     list_subjects = data[subject_field]
