@@ -1,5 +1,6 @@
 import datetime
 import json
+import warnings
 
 import sqlalchemy as sql
 from pkg_resources import iter_entry_points
@@ -37,6 +38,11 @@ class SQLDatabase(object):
         dburi = self._uri
         if dburi is None:
             dburi = 'sqlite:///:memory:'
+
+        # Pysqlite dialect of SQLite does not support compilation caching. We use
+        # it to work around compatibility problems between SQLAlchemy and the ancient
+        # native SQLite package in CentOS 7
+        warnings.filterwarnings("ignore", ".*SQL compilation caching.*")
 
         engine = sql.create_engine(dburi)
         self._conn = engine.connect()
