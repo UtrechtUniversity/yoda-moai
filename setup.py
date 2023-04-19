@@ -66,7 +66,8 @@ setup(
     'mod-wsgi==4.9.3',
     'wsgiserver',
     'lxml==4.9.2',
-    'requests==2.28.2'
+    'requests==2.28.2',
+    'sqlalchemy-pysqlite3==0.0.4'
     ],
     dependency_links=[
         'git+https://github.com/shasha79/pastescript'
