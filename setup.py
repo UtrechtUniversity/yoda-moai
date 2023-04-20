@@ -37,7 +37,8 @@ setup(
         'sqlite=moai.database:SQLDatabase',
         'mysql=moai.database:SQLDatabase',
         'postgres=moai.database:SQLDatabase',
-        'oracle=moai.database:SQLDatabase'],
+        'oracle=moai.database:SQLDatabase',
+        'sqlite+pysqlite3=moai.database:SQLDatabase'],
     'moai.provider':[
         'file=moai.provider.file:FileBasedContentProvider',
         'list=moai.provider.list:ListBasedContentProvider',
@@ -61,12 +62,13 @@ setup(
     'paste',
     'pasteDeploy',
     'pasteScript',
-    'sqlalchemy==2.0.3',
+    'sqlalchemy==2.0.9',
     'xmltodict',
     'mod-wsgi==4.9.3',
     'wsgiserver',
     'lxml==4.9.2',
-    'requests==2.28.2'
+    'requests==2.28.2',
+    'sqlalchemy-pysqlite3==0.0.4'
     ],
     dependency_links=[
         'git+https://github.com/shasha79/pastescript'
