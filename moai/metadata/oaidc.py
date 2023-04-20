@@ -92,19 +92,35 @@ class OAIDC(object):
                 if not isinstance(affiliation_list, list):
                     affiliation_list = [affiliation_list]
 
+                aff_list = []
+                for item in affiliation_list:
+                    if isinstance(item, dict):
+                        aff_list.append(item["Affiliation_Name"])
+                    else:
+                        aff_list.append(item)
+                # conData = name + ' (' + ', '.join(aff_list) + ')'
+                # oai_dc.append(DC.contributor(conData))
+
                 # Compile creatorData
-                creatorData = name + ' (' + ', '.join(affiliation_list) + ')'
+                creatorData = name + ' (' + ', '.join(aff_list) + ')'
                 oai_dc.append(DC.creator(creatorData))
         except (IndexError, KeyError):
             pass
 
         # Subject  - collection of Disciplines / tags etc
         try:
-            # Disciplines and Tags
-            list_subjects = get_ci('Discipline') + get_ci('Tag')
-            if not isinstance(list_subjects, list):
-                list_subjects = [list_subjects]
-            for subject in list_subjects:
+            # Disciplines and Tags/Keywords
+            keywords = []
+            # Tag and Keyword are mutually exclusive.
+            # This forms a slightly different structure then the way get_ci is intended.
+            # Therefore not used here.
+            if 'Tag' in data:
+                keywords = data['Tag']
+            elif 'Keyword' in data:
+                keywords = data['Keyword']
+
+            keywords += get_ci('Discipline')
+            for subject in keywords:
                 if subject is not None and len(subject):
                     oai_dc.append(DC.subject(subject))
 
@@ -168,7 +184,13 @@ class OAIDC(object):
                     affiliation_list = [affiliation_list]
 
                 # Compile creatorData
-                conData = name + ' (' + ', '.join(affiliation_list) + ')'
+                aff_list = []
+                for item in affiliation_list:
+                    if isinstance(item, dict):
+                        aff_list.append(item["Affiliation_Name"])
+                    else:
+                        aff_list.append(item)
+                conData = name + ' (' + ', '.join(aff_list) + ')'
                 oai_dc.append(DC.contributor(conData))
         except (IndexError, KeyError):
             pass

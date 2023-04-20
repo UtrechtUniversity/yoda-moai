@@ -189,7 +189,10 @@ class Iso(object):
                     affiliation_list = [affiliation_list]
 
                 for affiliation in affiliation_list:
-                    CI_ResponsibleParty.append(GMD.organisationName(GCO.CharacterString(affiliation)))
+                    if isinstance(affiliation, dict):
+                        CI_ResponsibleParty.append(GMD.organisationName(GCO.CharacterString(affiliation["Affiliation_Name"])))
+                    else:
+                        CI_ResponsibleParty.append(GMD.organisationName(GCO.CharacterString(affiliation)))
 
                 CI_ResponsibleParty.append(role)
 
@@ -253,7 +256,10 @@ class Iso(object):
                     affiliation_list = [affiliation_list]
 
                 for affiliation in affiliation_list:
-                    CI_ResponsibleParty.append(GMD.organisationName(GCO.CharacterString(affiliation)))
+                    if isinstance(affiliation, dict):
+                        CI_ResponsibleParty.append(GMD.organisationName(GCO.CharacterString(affiliation["Affiliation_Name"])))
+                    else:
+                        CI_ResponsibleParty.append(GMD.organisationName(GCO.CharacterString(affiliation)))
 
                 CI_ResponsibleParty.append(role)
 
@@ -306,7 +312,10 @@ class Iso(object):
                     affiliation_list = [affiliation_list]
 
                 for affiliation in affiliation_list:
-                    CI_ResponsibleParty.append(GMD.organisationName(GCO.CharacterString(affiliation)))
+                    if isinstance(affiliation, dict):
+                        CI_ResponsibleParty.append(GMD.organisationName(GCO.CharacterString(affiliation["Affiliation_Name"])))
+                    else:
+                        CI_ResponsibleParty.append(GMD.organisationName(GCO.CharacterString(affiliation)))
 
                 CI_ResponsibleParty.append(role)
                 pointOfContact.append(CI_ResponsibleParty)
@@ -356,7 +365,12 @@ class Iso(object):
             MD_Keywords = GMD.MD_Keywords()
 
             # Subjects - Tags
-            list_subjects = data['Tag']
+            list_subjects = []
+            if 'Tag' in data:
+                list_subjects = data['Tag']
+            elif 'Keyword' in data:
+                list_subjects = data['Keyword']
+
             if not isinstance(list_subjects, list):
                 list_subjects = [list_subjects]
             for subject in list_subjects:
@@ -496,11 +510,16 @@ class Iso(object):
             pass
 
 
-# Related datapackages, References, cites, IsSupplementTo
+# Related resources
 
-        # Related identifiers
+        # For backward compatibility check for Related_Datapackage as well
+        related_resources = []
+        if 'Related_Resource' in data:
+            related_resources = data['Related_Resource']
+        elif 'Related_Datapackage' in data:
+            related_resources = data['Related_Datapackage']
         try:
-            for identifier in data['Related_Datapackage']:
+            for identifier in related_resources:
                 aggregationInfo = GMD.aggregationInfo()
                 MD_AggregateInformation = GMD.MD_AggregateInformation()
                 aggregateDataSetIdentifier = GMD.aggregateDataSetIdentifier()
@@ -517,6 +536,7 @@ class Iso(object):
                 aggregateDataSetIdentifier.append(RS_Identifier)
                 MD_AggregateInformation.append(aggregateDataSetIdentifier)
 
+                # For backward compatibility reasons the split is left in. It will not break the new Relation_Type handling (which is only an identifier)
                 relation_type = identifier['Relation_Type'].split(':')[0]
                 DS_AssociationTypeCode = GMD.DS_AssociationTypeCode(relation_type)
                 DS_AssociationTypeCode.attrib['codeList'] = 'http://datacite.org/schema/kernel-4'

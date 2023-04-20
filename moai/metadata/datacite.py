@@ -83,7 +83,16 @@ class DataCite(object):
                     affiliation_list = [affiliation_list]
 
                 for affiliation in affiliation_list:
-                    creator.append(NONE.affiliation(affiliation))
+                    if isinstance(affiliation, dict):
+                        creatorAffil = NONE.affiliation(affiliation['Affiliation_Name'])
+                        if affiliation['Affiliation_Identifier']:
+                            creatorAffil.attrib['affiliationIdentifier'] = affiliation['Affiliation_Identifier']
+                            creatorAffil.attrib['affiliationIdentifierScheme'] = 'ROR'
+                        else:
+                            creatorAffil = NONE.affiliation(affiliation)
+                        creator.append(creatorAffil)
+                    else:
+                        creator.append(NONE.affiliation(affiliation))
 
                 idf_list = dccreator['Person_Identifier']
                 if not isinstance(idf_list, list):
@@ -139,7 +148,12 @@ class DataCite(object):
             datacite.append(subjects)
 
             # Subjects - Tags
-            list_subjects = data['Tag']
+            list_subjects = []
+            if 'Tag' in data:
+                list_subjects = data['Tag']
+            elif 'Keyword' in data:
+                list_subjects = data['Keyword']
+
             if not isinstance(list_subjects, list):
                 list_subjects = [list_subjects]
             for subject in list_subjects:
@@ -208,7 +222,14 @@ class DataCite(object):
                     affiliation_list = [affiliation_list]
 
                 for affiliation in affiliation_list:
-                    contributor.append(NONE.affiliation(affiliation))
+                    if isinstance(affiliation, dict):
+                        contribAffil = NONE.affiliation(affiliation['Affiliation_Name'])
+                        if affiliation['Affiliation_Identifier']:
+                            contribAffil.attrib['affiliationIdentifier'] = affiliation['Affiliation_Identifier']
+                            contribAffil.attrib['affiliationIdentifierScheme'] = 'ROR'
+                        contributor.append(contribAffil)
+                    else:
+                        contributor.append(NONE.affiliation(affiliation))
 
                 idf_list = dccontributor['Person_Identifier']
                 if not isinstance(idf_list, list):
@@ -236,7 +257,14 @@ class DataCite(object):
                         affiliation_list = [affiliation_list]
 
                     for affiliation in affiliation_list:
-                        contributor.append(NONE.affiliation(affiliation))
+                        if isinstance(affiliation, dict):
+                            contribAffil = NONE.affiliation(affiliation['Affiliation_Name'])
+                            if affiliation['Affiliation_Identifier']:
+                                contribAffil.attrib['affiliationIdentifier'] = affiliation['Affiliation_Identifier']
+                                contribAffil.attrib['affiliationIdentifierScheme'] = 'ROR'
+                            contributor.append(contribAffil)
+                        else:
+                            contributor.append(NONE.affiliation(affiliation))
 
                     idf_list = dccontributor['Person_Identifier']
                     if not isinstance(idf_list, list):
@@ -325,11 +353,18 @@ class DataCite(object):
             pass
 
         # Related identifiers
+        # For backward compatibility check for Related_Datapackage as well
+        related_resources = []
+        if 'Related_Resource' in data:
+            related_resources = data['Related_Resource']
+        elif 'Related_Datapackage' in data:
+            related_resources = data['Related_Datapackage']
         try:
             relatedIdentifiers = NONE.relatedIdentifiers()
-            for identifier in data['Related_Datapackage']:
+            for identifier in related_resources:
                 relatedIdentifier = NONE.relatedIdentifier(identifier['Persistent_Identifier']['Identifier'])
                 relatedIdentifier.attrib['relatedIdentifierType'] = identifier['Persistent_Identifier']['Identifier_Scheme']
+                # For backward compatibilty keep the split here. It will not interfere with the new way Relation_Type is saved to yoda-metadata.json
                 relatedIdentifier.attrib['relationType'] = identifier['Relation_Type'].split(':')[0]
                 relatedIdentifiers.append(relatedIdentifier)
 
