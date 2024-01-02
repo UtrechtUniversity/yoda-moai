@@ -137,7 +137,7 @@ class OAIDC(object):
             if not isinstance(con_list, list):
                 con_list = [con_list]
 
-            for dccon in creator_list:
+            for dccon in con_list:
                 name = dccon['Name']['Given_Name'] + ' ' + dccon['Name']['Family_Name']
 
                 affiliation_list = dccon['Affiliation']
