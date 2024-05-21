@@ -67,7 +67,7 @@ setup(
     'mod-wsgi==4.9.3',
     'wsgiserver',
     'lxml==4.9.2',
-    'requests==2.31.0',
+    'requests==2.32.0',
     'sqlalchemy-pysqlite3==0.0.4'
     ],
     dependency_links=[
