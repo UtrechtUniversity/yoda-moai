@@ -55,7 +55,7 @@ setup(
      ],
     },
     install_requires=[
-    'pyoai==2.5.0',
+    'pyoai @ https://github.com/infrae/pyoai/archive/refs/tags/2.5.1.zip',
     'WSGIUtils',
     'wsgi_intercept',
     'webob',
