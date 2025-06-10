@@ -1,4 +1,4 @@
-name: Python lint
+name: Lint and run tests
 
 on: [push, pull_request]
 
