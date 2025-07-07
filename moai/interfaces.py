@@ -10,24 +10,24 @@ class IContentProvider(Interface):
         """Set the logger instance for this class
         """
 
-    def update(from_date=None):
+    def update(self, from_date=None):
         """Harvests new content added since from_date
         returns a list of content_ids that were changed/added,
         this should be called before get_contents is called
         """
         pass
 
-    def count():
+    def count(self):
         """Returns number of content objects in the repository
         returns None if number is unknown, this should not be
         called before update is called
         """
 
-    def get_content_ids():
+    def get_content_ids(self):
         """returns a list/generator of content_ids
         """
 
-    def get_content_by_id():
+    def get_content_by_id(self):
         """Return content of a specific id
         """
 
@@ -44,20 +44,20 @@ class IContentObject(Interface):
 
     provider = Attribute("ContentProvider instance that created this object")
 
-    def update(data, provider):
+    def update(self, data, provider):
         """Called by IContentProvider, to fill the object with data
         """
 
-    def field_names():
+    def field_names(self):
         """Return a list of field names, used in this object
         """
 
-    def get_values(field_name):
+    def get_values(self, field_name):
         """Return a list of python objects (string/int/etc)
         from a specific field name
         """
 
-    def get_assets():
+    def get_assets(self):
         """Return a list of python dictionaries, each dictionary contains
         at least the following keys:
 
@@ -75,12 +75,12 @@ class IContentValidator(Interface):
 
     content_type = Attribute("The type of objects this validator can validate")
 
-    def set_logger(logger_instance):
+    def set_logger(self, logger_instance):
         """Make the validator use a specific custom logger
         (will probably be set automaticly in __init__)
         """
 
-    def validate_object(content_object):
+    def validate_object(self, content_object):
         """Validates an object, return a Boolean to indicate validity,
         Alle warnings and errors, should also be logged with the log object
         that's provided as an argument of the set_logger method
@@ -94,12 +94,12 @@ class IDatabaseUpdater(Interface):
         Defaults to -1, which only flushes the database
         at the end''')
 
-    def set_database(database):
+    def set_database(self, database):
         """Make the updater use a specific (new) database
         (will probably be set automaticly in __init__)
         """
 
-    def set_content_provider(content_provider):
+    def set_content_provider(self, content_provider):
         """Make the updater use a specific ContentProvider
         (will probably be set automaticly in __init__)
         """
@@ -109,27 +109,27 @@ class IDatabaseUpdater(Interface):
         from the provider data
         """
 
-    def set_logger(logger_instance):
+    def set_logger(self, logger_instance):
         """Make the updater use a specific custom logger
         (will probably be set automaticly in __init__)
         """
 
-    def update_provider(from_date=None):
+    def update_provider(self, from_date=None):
         """Iterates through update_provider_iterate in a loop,
         returns a list of updated ids
         """
 
-    def update_provider_iterate(from_date=None):
+    def update_provider_iterate(self, from_date=None):
         """Updates the provider from a specific date,
         yields the ids that where updated
         """
 
-    def update_database(validate=True, supress_errors=False):
+    def update_database(self, validate=True, supress_errors=False):
         """Iterates through update_database_iterate in a loop,
         returns the number of errors that occured (int)
         """
 
-    def update_database_iterate(validate=True, supress_errors=False):
+    def update_database_iterate(self, validate=True, supress_errors=False):
         """Update the database with the content_provider
         this will update the content_provider, optionally
         validate the content objects, and add everything
@@ -155,7 +155,7 @@ class IDatabaseUpdater(Interface):
 
 class IReadOnlyDatabase(Interface):
 
-    def oai_sets(offset=0, batch_size=20):
+    def oai_sets(self, offset=0, batch_size=20):
         """Used by queries from the OAI server. Format returned should be the
         following:
 
@@ -165,7 +165,8 @@ class IReadOnlyDatabase(Interface):
 
         """
 
-    def oai_query(offset=0,
+    def oai_query(self,
+                  offset=0,
                   batch_size=20,
                   sets=[],
                   not_sets=[],
@@ -182,7 +183,7 @@ class IReadOnlyDatabase(Interface):
         ]
         """
 
-    def get_record(id):
+    def get_record(self, id):
         """Returns a dictionary of data that is available from the
         object with the specific id. The dictionary should contain at least
         the following data:
@@ -196,7 +197,7 @@ class IReadOnlyDatabase(Interface):
         If the id does not exist, None is returned
         """
 
-    def get_metadata(id):
+    def get_metadata(self, id):
         """Returns a dictionary with additional data.
         Keys are always a string, values are always lists of python
         objects.
@@ -204,11 +205,11 @@ class IReadOnlyDatabase(Interface):
         If the id does not exist, None is returned
         """
 
-    def get_sets(id):
+    def get_sets(self, id):
         """Returns a list of set ids for a specific id,
         """
 
-    def get_set(id):
+    def get_set(self, id):
         """Returns a dictionary of set info containing
         - id
         - name
@@ -217,7 +218,7 @@ class IReadOnlyDatabase(Interface):
         If the id does not exist, None is returned
         """
 
-    def get_assets(id):
+    def get_assets(self, id):
         """Returns a list of dictionaries describing the assets
         Each dictionary contains the following fields:
         - filename
@@ -233,18 +234,18 @@ class IReadOnlyDatabase(Interface):
 
 class IDatabase(IReadOnlyDatabase):
 
-    def flush_update():
+    def flush_update(self):
         """Called once by the database updater at the end of the update proces
         (depending on the flush_threshold attribute in DatabaseUpdater)
         This allows the database to implement a batching strategy
         """
 
-    def remove_content(id):
+    def remove_content(self, id):
         """Remove all the content of a given id, returns a boolean to indicate
         if the removal was succesful
         """
 
-    def add_content(id, sets, record_data, meta_data, assets_data):
+    def add_content(self, id, sets, record_data, meta_data, assets_data):
         """Add content to the database, supplying an id and 3 dictionaries,
         of data. The dictionaries should contain at least the keys that
         are needed for generating the get_record, get_metadata and get_keys
@@ -252,17 +253,17 @@ class IDatabase(IReadOnlyDatabase):
         Returns a boolean to indicate if the insertion was succesful
         """
 
-    def add_set(id, name, description=None):
+    def add_set(self, id, name, description=None):
         """Add a set to the database
         Returns a boolean to indicate if the insertion was succesful
         """
 
-    def remove_set(id):
+    def remove_set(self, id):
         """Remove set from the database
         Returns a boolean to indicate if the removal was succesful
         """
 
-    def empty_database():
+    def empty_database(self):
         """Removes all data from the database, but doesn't remove the
         table structures. Mainly used for testing.
         """
@@ -295,19 +296,19 @@ class IFeedConfig(Interface):
         "this can be used as an alternative to sets_dissallowed.")
     delay = Attribute("number of miliseconds to delay the feed")
 
-    def get_oai_id(internal_id):
+    def get_oai_id(self, internal_id):
         """Rename internal id into oai_id"""
 
-    def get_internal_id(oai_id):
+    def get_internal_id(self, oai_id):
         """Rename oai_id into internal id"""
 
-    def get_setspec_id(internal_set_id):
+    def get_setspec_id(self, internal_set_id):
         """Rename internal set id into a setspec id"""
 
-    def get_internal_set_id(oai_setspec_id):
+    def get_internal_set_id(self, oai_setspec_id):
         """Rename setspec id into  internal set id"""
 
-    def get_asset_path(internal_id, asset):
+    def get_asset_path(self, internal_id, asset):
         """Return an absolute path to an asset given
         an internal id the asset data dict containing
         filename, md5, url and metadata
@@ -316,55 +317,55 @@ class IFeedConfig(Interface):
 
 class IServerRequest(Interface):
 
-    def url():
+    def url(self):
         """Return the current url
         """
 
-    def redirect(url):
+    def redirect(self, url):
         """Redirect to this url
         """
 
-    def send_file(path):
+    def send_file(self, path):
         """Send the file located at 'path' back to the user
         """
 
-    def query_dict():
+    def query_dict(self):
         """Return a dictionary with QueryString values of the
         request
         """
 
-    def write(data, mimetype):
+    def write(self, data, mimetype):
         """Write data back to the client
         """
 
-    def send_status(code, msg='', mimetype='text/plain'):
+    def send_status(self, code, msg='', mimetype='text/plain'):
         """Return a status code to the user
         """
 
 
 class IServer(Interface):
 
-    def add_config(config):
+    def add_config(self, config):
         """Add a ServerConfig to the server
         """
 
-    def get_config(id):
+    def get_config(self, id):
         """Get a ServerConfig by id
         """
 
-    def download_asset(req, url, config):
+    def download_asset(self, req, url, config):
         """Download an asset from a url
         """
 
-    def allow_download(url, config):
+    def allow_download(self, url, config):
         """Is user allowed to download this asset (returns bool)
         """
 
-    def is_asset_url(url, config):
+    def is_asset_url(self, url, config):
         """Is this url pointing to an asset (returns bool)
         """
 
-    def handle_request(req):
+    def handle_request(self, req):
         """Serve this request this method goes through the following steps:
         1. check if url is valid
         2. try to get ServerConfig for this url
