@@ -29,10 +29,16 @@ jobs:
       - name: Install test dependencies
         run: |
           sudo apt -u update
-          sudo apt -y install apache2-dev
+          sudo apt -y install apache2-dev libsqlite3-dev
+          python -m pip install mypy==1.16.1
+          python -m pip install types-requests
           python -m pip install wheel
           python -m pip install -r requirements.txt
           python -m pip install ./
+
+      - name: Run type checks
+        run: |
+          mypy --ignore-missing-imports moai
 
       - name: Run unit and integration tests
         run: |

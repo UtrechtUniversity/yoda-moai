@@ -2,6 +2,7 @@
 import datetime
 import doctest
 import os
+from typing import Any, Dict
 from unittest import makeSuite, TestCase, TestSuite
 
 import requests
@@ -16,7 +17,7 @@ from moai.utils import XPath
 from moai.wsgi import MOAIWSGIApp
 
 FLAGS = doctest.NORMALIZE_WHITESPACE + doctest.ELLIPSIS
-GLOBS = {}
+GLOBS: Dict[Any, Any] = {}
 
 
 class XPathUtilTest(TestCase):
