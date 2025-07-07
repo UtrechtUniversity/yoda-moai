@@ -1,5 +1,5 @@
+import datetime
 import time
-from datetime import datetime
 from importlib.metadata import entry_points, version as importlib_version
 
 import oaipmh
@@ -129,7 +129,7 @@ class OAIServer(object):
     def _listQuery(self, set=None, from_=None, until=None,
                    cursor=0, batch_size=10, identifier=None):
 
-        now = datetime.utcnow()
+        now = datetime.datetime.now()
         if until is not None and until > now:
             # until should never be in the future
             until = now
@@ -137,7 +137,7 @@ class OAIServer(object):
         if self.config.delay:
             # subtract delay from until_ param, if present
             if until is None:
-                until = datetime.utcnow()
+                until = datetime.datetime.now()
             until = until.timetuple()
             ut = time.mktime(until) - self.filter_data.delay
             until = datetime.fromtimestamp(ut)

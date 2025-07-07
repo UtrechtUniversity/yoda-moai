@@ -269,8 +269,8 @@ class SQLDatabase(object):
             batch_size = 0
 
         # make sure until date is set, and not in future
-        if until_date is None or until_date > datetime.datetime.utcnow():
-            until_date = datetime.datetime.utcnow()
+        if until_date is None or until_date > datetime.datetime.now():
+            until_date = datetime.datetime.now()
 
         query = sql.select(self._records).order_by(
             sql.desc(self._records.c.modified)).where(
