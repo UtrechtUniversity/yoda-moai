@@ -11,3 +11,4 @@ mod-wsgi==4.9.3
 wsgiserver
 lxml==5.3.0
 requests==2.32.4
+lxml-stubs
