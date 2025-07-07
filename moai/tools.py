@@ -3,17 +3,15 @@ import datetime
 import os
 import sys
 import time
+from importlib.metadata import entry_points, version
 from optparse import OptionParser
-
-import pkg_resources
-from pkg_resources import iter_entry_points
 
 from moai.database import SQLDatabase
 from moai.utils import (get_duration,
                         get_moai_log,
                         ProgressBar)
 
-VERSION = pkg_resources.working_set.by_key['moai'].version
+VERSION = version("moai")
 
 
 def update_moai():
@@ -89,9 +87,9 @@ def update_moai():
     database = SQLDatabase(config['database'])
 
     ContentClass = None
-    for content_point in iter_entry_points(group='moai.content',
-                                           name=config['content']):
-        ContentClass = content_point.load()
+    content_entrypoints = [e for e in entry_points() if e.group == 'moai.content' and e.name == config['content']]
+    for content_entrypoint in content_entrypoints:
+        ContentClass = content_entrypoint.load()
 
     if ContentClass is None:
         sys.stderr.write('Unknown content class: %s\n' % (config['content'],))
@@ -99,9 +97,10 @@ def update_moai():
 
     provider_name = config['provider'].split(':', 1)[0]
     provider = None
-    for provider_point in iter_entry_points(group='moai.provider',
-                                            name=provider_name):
-        provider = provider_point.load()(config['provider'])
+    provider_entrypoints = [e for e in entry_points() if e.group == 'moai.provider' and e.name == provider_name]
+
+    for provider_entrypoint in provider_entrypoints:
+        provider = provider_entrypoint.load()(config['provider'])
 
     if provider is None:
         sys.stderr.write('Unknown provider: %s\n' % (provider_name,))

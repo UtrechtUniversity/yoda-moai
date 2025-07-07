@@ -1,17 +1,18 @@
 import datetime
 import json
 import warnings
+from importlib.metadata import entry_points
 
 import sqlalchemy as sql
-from pkg_resources import iter_entry_points
 
 from moai.utils import check_type
 
 
 def get_database(uri, config=None):
     prefix = uri.split(':')[0]
-    for entry_point in iter_entry_points(group='moai.database', name=prefix):
-        dbclass = entry_point.load()
+    db_entrypoints = [e for e in entry_points() if e.group == 'moai.database' and e.name == prefix]
+    for db_entrypoint in db_entrypoints:
+        dbclass = db_entrypoint.load()
         try:
             return dbclass(uri, config)
         except TypeError:

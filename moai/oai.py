@@ -1,16 +1,16 @@
 import time
 from datetime import datetime
+from importlib.metadata import entry_points, version as importlib_version
 
 import oaipmh
 import oaipmh.error
 import oaipmh.metadata
 import oaipmh.server
-import pkg_resources
-from pkg_resources import iter_entry_points
 
 
 def get_writer(prefix, config, db):
-    for writer in iter_entry_points(group='moai.format', name=prefix):
+    writer_entrypoints = [e for e in entry_points() if e.group == 'moai.format' and e.name == prefix]
+    for writer in writer_entrypoints:
         return writer.load()(prefix, config, db)
     else:
         raise ValueError('No such metadata format registered: %s' % prefix)
@@ -39,15 +39,13 @@ class OAIServer(object):
             toolkit_description=False)
 
         version = ''
-        pyoai_egg = pkg_resources.working_set.find(
-            pkg_resources.Requirement.parse('pyoai'))
-        moai_egg = pkg_resources.working_set.find(
-            pkg_resources.Requirement.parse('MOAI'))
+        pyoai_version = importlib_version("pyoai")
+        moai_version = importlib_version("moai")
 
-        if moai_egg and pyoai_egg:
+        if pyoai_version and moai_version:
             version = '<version>%s (using pyoai%s)</version>' % (
-                moai_egg.version,
-                pyoai_egg.version)
+                moai_version,
+                pyoai_version)
         result.add_description(
             '<toolkit xsi:schemaLocation='
             '"http://oai.dlib.vt.edu/OAI/metadata/toolkit '
