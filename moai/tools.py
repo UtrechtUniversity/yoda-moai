@@ -87,7 +87,11 @@ def update_moai():
     database = SQLDatabase(config['database'])
 
     ContentClass = None
-    content_entrypoints = [e for e in entry_points() if e.group == 'moai.content' and e.name == config['content']]
+    try:  # Python >= 3.10 and importlib_metadata >= 3.6
+        content_entrypoints = entry_points(group="moai.content", name=config['content'])
+    except TypeError:  # Fallback for older Python versions
+        content_entrypoints = [e for e in entry_points().get("moai.content", []) if e.name == config['content']]
+
     for content_entrypoint in content_entrypoints:
         ContentClass = content_entrypoint.load()
 
@@ -97,7 +101,11 @@ def update_moai():
 
     provider_name = config['provider'].split(':', 1)[0]
     provider = None
-    provider_entrypoints = [e for e in entry_points() if e.group == 'moai.provider' and e.name == provider_name]
+
+    try:  # Python >= 3.10 and importlib_metadata >= 3.6
+        provider_entrypoints = entry_points(group="moai.provider", name=provider_name)
+    except TypeError:  # Fallback for older Python versions
+        provider_entrypoints = [e for e in entry_points().get("moai.provider", []) if e.name == provider_name]
 
     for provider_entrypoint in provider_entrypoints:
         provider = provider_entrypoint.load()(config['provider'])
