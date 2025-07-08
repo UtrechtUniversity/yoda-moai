@@ -9,7 +9,11 @@ import oaipmh.server
 
 
 def get_writer(prefix, config, db):
-    writer_entrypoints = [e for e in entry_points() if e.group == 'moai.format' and e.name == prefix]
+    try:  # Python >= 3.10 and importlib_metadata >= 3.6
+        writer_entrypoints = entry_points(group="moai.format", name=prefix)
+    except TypeError:  # Fallback for older Python versions
+        writer_entrypoints = [e for e in entry_points().get("moai.format", []) if e.name == prefix]
+
     for writer in writer_entrypoints:
         return writer.load()(prefix, config, db)
     else:

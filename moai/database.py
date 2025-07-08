@@ -10,7 +10,12 @@ from moai.utils import check_type
 
 def get_database(uri, config=None):
     prefix = uri.split(':')[0]
-    db_entrypoints = [e for e in entry_points() if e.group == 'moai.database' and e.name == prefix]
+
+    try:  # Python >= 3.10 and importlib_metadata >= 3.6
+        db_entrypoints = entry_points(group="moai.database", name=prefix)
+    except TypeError:  # Fallback for older Python versions
+        db_entrypoints = [e for e in entry_points().get("moai.database", []) if e.name == prefix]
+
     for db_entrypoint in db_entrypoints:
         dbclass = db_entrypoint.load()
         try:
@@ -18,6 +23,7 @@ def get_database(uri, config=None):
         except TypeError:
             # ugly backwards compatibility hack
             return dbclass(uri)
+
     raise ValueError('No such database registered: %s' % prefix)
 
 
