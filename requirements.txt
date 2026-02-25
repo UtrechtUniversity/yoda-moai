@@ -1,4 +1,4 @@
-pyoai @ https://github.com/infrae/pyoai/archive/refs/tags/2.5.1.zip
+pyoai @ git+https://github.com/infrae/pyoai.git@2.5.1
 WSGIUtils
 wsgi_intercept
 webob

@@ -19,7 +19,7 @@ jobs:
 
       - name: Install flake dependencies
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip==26.0.1
           python -m pip install flake8==6.0.0 flake8-import-order
 
       - name: Lint with flake8
@@ -30,9 +30,20 @@ jobs:
         run: |
           sudo apt -u update
           sudo apt -y install apache2-dev libsqlite3-dev
+          python -m pip install -U pip==26.0.1
           python -m pip install mypy==1.16.1
-          python -m pip install types-requests
-          python -m pip install wheel
+          python -m pip install types-requests==2.32.4.20260107
+          python -m pip install wheel==0.46.3
+          # Need older setuptools versions, because pyoai still depends
+          # on pkg_resources
+          python -m pip install setuptools==81.0.0
+          # Other PyOAI dependencies. Need to declare them here because
+          # we need to disable build isolation.
+          python -m pip install lxml==6.0.2
+          python -m pip install six==1.17.0
+          # Disable build isolation for PyOAI package to work around
+          # problematic pkg_resources dependency.
+          python -m pip install --no-build-isolation "pyoai @ git+https://github.com/infrae/pyoai.git@2.5.1"
           python -m pip install -r requirements.txt
           python -m pip install ./
 
