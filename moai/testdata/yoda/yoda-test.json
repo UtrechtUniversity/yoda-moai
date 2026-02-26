@@ -1,0 +1,58 @@
+{
+    "links": [
+        {
+            "rel": "describedby",
+            "href": "https://yoda.uu.nl/schemas/default-3/metadata.json"
+        }
+    ],
+    "Discipline": [
+        "Natural Sciences - Biological sciences (1.6)"
+    ],
+    "Language": "en - English",
+    "Keyword": [
+        "abc"
+    ],
+    "Retention_Period": 10,
+    "Data_Type": "Dataset",
+    "Creator": [
+        {
+            "Name": {
+                "Given_Name": "A",
+                "Family_Name": "B"
+            },
+            "Affiliation": [
+                {
+                    "Affiliation_Name": "Academic Center for Dentistry Amsterdam",
+                    "Affiliation_Identifier": "https://ror.org/04x5wnb75"
+                }
+            ]
+        }
+    ],
+    "Data_Access_Restriction": "Open - freely retrievable",
+    "License": "Creative Commons Attribution 4.0 International Public License",
+    "Title": "Test data package",
+    "Description": "Just for testing",
+    "Data_Classification": "Public",
+    "Collection_Name": "abc",
+    "Version": "2",
+    "Related_Resource": [
+        {
+            "Persistent_Identifier": {
+                "Identifier_Scheme": "DOI",
+                "Identifier": "https://doi.org/10.00012/UU01-T7NBFI"
+            },
+            "Relation_Type": "IsNewVersionOf",
+            "Title": "Test package"
+        }
+    ],
+    "System": {
+        "Publication_Date": "2024-12-16T17:03:03.429401",
+        "Last_Modified_Date": "2024-12-16T17:02:10.000000",
+        "Open_access_Link": "https://acc.dgk.public.data.uu.nl:443/vault-test1212/package[1734364882]",
+        "Persistent_Identifier_Datapackage": {
+            "Identifier_Scheme": "DOI",
+            "Identifier": "10.00012/UU01-9SYIHN"
+        },
+        "License_URI": "https://creativecommons.org/licenses/by/4.0/legalcode"
+    }
+}
