@@ -53,5 +53,4 @@ jobs:
 
       - name: Run unit and integration tests
         run: |
-          cd moai
-          python -m unittest
+          python -m unittest moai.tests.testsuite
