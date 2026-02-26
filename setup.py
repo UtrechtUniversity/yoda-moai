@@ -66,7 +66,7 @@ setup(
     'xmltodict',
     'mod-wsgi==4.9.3',
     'wsgiserver',
-    'lxml==5.3.0',
+    'lxml==6.0.2',
     'requests==2.32.4',
     'sqlalchemy-pysqlite3==0.0.4'
     ],
