@@ -94,7 +94,7 @@ class DataCite(object):
                     else:
                         creator.append(NONE.affiliation(affiliation))
 
-                idf_list = dccreator['Person_Identifier']
+                idf_list = dccreator.get('Person_Identifier', [])
                 if not isinstance(idf_list, list):
                     idf_list = [idf_list]
                 for identifier in idf_list:
@@ -233,7 +233,7 @@ class DataCite(object):
                     else:
                         contributor.append(NONE.affiliation(affiliation))
 
-                idf_list = dccontributor['Person_Identifier']
+                idf_list = dccontributor.get('Person_Identifier', [])
                 if not isinstance(idf_list, list):
                     idf_list = [idf_list]
                 for identifier in idf_list:
@@ -270,7 +270,7 @@ class DataCite(object):
                         else:
                             contributor.append(NONE.affiliation(affiliation))
 
-                    idf_list = dccontributor['Person_Identifier']
+                    idf_list = dccontributor.get('Person_Identifier', [])
                     if not isinstance(idf_list, list):
                         idf_list = [idf_list]
                     for identifier in idf_list:
