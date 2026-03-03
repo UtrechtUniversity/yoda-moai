@@ -49,9 +49,7 @@ setup(
         'oai_dc=moai.metadata.oaidc:OAIDC',
         'datacite=moai.metadata.datacite:DataCite',
         'oai_datacite=moai.metadata.datacite:DataCite',
-        'iso19139=moai.metadata.iso:Iso',
-        'mods=moai.metadata.mods:MODS',
-        'didl=moai.metadata.didl:DIDL'
+        'iso19139=moai.metadata.iso:Iso'
      ],
     },
     install_requires=[
