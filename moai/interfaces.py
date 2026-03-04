@@ -57,19 +57,6 @@ class IContentObject(Interface):
         from a specific field name
         """
 
-    def get_assets(self):
-        """Return a list of python dictionaries, each dictionary contains
-        at least the following keys:
-
-        - url               - Url of the asset, this will be used in feeds
-        - filename          - The filename of the asset
-        - md5sum            - md5 checksum of the asset
-        - mimetype          - mimetype of the asset
-        - absolute_uri      - file:/// or http:/// uri referencing the file
-        - metadata          - dictionary with lists of strings as values holding
-                              additional metadata
-        """
-
 
 class IContentValidator(Interface):
 
@@ -179,7 +166,6 @@ class IReadOnlyDatabase(Interface):
 
         [{'record': <dict similar to get_record() output>,
           'metadata': <dict similar to get_metadata() output>,
-          'assets': <dict similar to get_assets() output>}
         ]
         """
 
@@ -218,19 +204,6 @@ class IReadOnlyDatabase(Interface):
         If the id does not exist, None is returned
         """
 
-    def get_assets(self, id):
-        """Returns a list of dictionaries describing the assets
-        Each dictionary contains the following fields:
-        - filename
-        - url
-        - mimetype
-        - md5
-        - absolute_uri
-        - metadata
-
-        Where metadata is a dictionary with additional lists of string values
-        """
-
 
 class IDatabase(IReadOnlyDatabase):
 
@@ -245,8 +218,8 @@ class IDatabase(IReadOnlyDatabase):
         if the removal was succesful
         """
 
-    def add_content(self, id, sets, record_data, meta_data, assets_data):
-        """Add content to the database, supplying an id and 3 dictionaries,
+    def add_content(self, id, sets, record_data, meta_data):
+        """Add content to the database, supplying an id and 2 dictionaries,
         of data. The dictionaries should contain at least the keys that
         are needed for generating the get_record, get_metadata and get_keys
         requests.
@@ -308,12 +281,6 @@ class IFeedConfig(Interface):
     def get_internal_set_id(self, oai_setspec_id):
         """Rename setspec id into  internal set id"""
 
-    def get_asset_path(self, internal_id, asset):
-        """Return an absolute path to an asset given
-        an internal id the asset data dict containing
-        filename, md5, url and metadata
-        """
-
 
 class IServerRequest(Interface):
 
@@ -353,24 +320,10 @@ class IServer(Interface):
         """Get a ServerConfig by id
         """
 
-    def download_asset(self, req, url, config):
-        """Download an asset from a url
-        """
-
-    def allow_download(self, url, config):
-        """Is user allowed to download this asset (returns bool)
-        """
-
-    def is_asset_url(self, url, config):
-        """Is this url pointing to an asset (returns bool)
-        """
-
     def handle_request(self, req):
         """Serve this request this method goes through the following steps:
         1. check if url is valid
         2. try to get ServerConfig for this url
-        3. test if this is an asset url, if so check if download is allowed,
-           and download asset
-        4. if not asset url, get the oai server through the OAIServerFactory
+        4. get the oai server through the OAIServerFactory
         5. call the handleRequest method on the oai server, and return the result
         """
