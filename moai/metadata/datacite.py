@@ -311,6 +311,16 @@ class DataCite(object):
         except KeyError:
             pass
 
+        # -Withdrawn
+        try:
+            date = data['System']['Withdrawn_Date']
+            dataciteDate = NONE.date(date)
+            dataciteDate.attrib['dateType'] = 'Withdrawn'
+            dataciteDates.append(dataciteDate)
+            datacite.append(dataciteDates)
+        except KeyError:
+            pass
+
         # -Start / end collected
         try:
             date_start = data['Collected']['Start_Date']
