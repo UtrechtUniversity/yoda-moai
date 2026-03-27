@@ -71,7 +71,7 @@ class OAIDC(object):
         """ Unpack lists with a single element
         """
         def unpack_single(arg):
-            return arg[0] if type(arg) == list and len(arg) == 1 else arg
+            return arg[0] if isinstance(arg, list) and len(arg) == 1 else arg
 
         # Title
         try:
