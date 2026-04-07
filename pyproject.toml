@@ -1,0 +1,85 @@
+[project]
+authors = [
+    { name = 'Infrae', email = 'info@infrae.com' },
+    { name = "Utrecht University Yoda team", email = "yoda@uu.nl" }
+]
+classifiers=[
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Environment :: Web Environment"
+]
+dependencies = [
+    'pyoai @ https://github.com/infrae/pyoai/archive/refs/tags/2.5.1.zip',
+    'WSGIUtils',
+    'wsgi_intercept',
+    'webob',
+    'paste',
+    'pasteDeploy',
+    'pasteScript',
+    'sqlalchemy==2.0.9',
+    'xmltodict',
+    'mod-wsgi==4.9.3',
+    'wsgiserver',
+    'lxml==6.0.2',
+    'requests==2.33.0',
+    'sqlalchemy-pysqlite3==0.0.4'
+]
+description = "MOAI for Yoda"
+license = "BSD-3-Clause"
+name = "moai"
+dynamic = ["version"]
+
+[build-system]
+requires = ["setuptools == 81.0.0", "setuptools_scm[toml]>=7"]
+build-backend = "setuptools.build_meta"
+
+[project.entry-points."moai.content"]
+moai_example = "moai.example:ExampleContent"
+moai_yoda = "moai.yoda:YodaContent"
+
+[project.entry-points."moai.database"]
+sqlite = "moai.database:SQLDatabase"
+mysql = "moai.database:SQLDatabase"
+postgres = "moai.database:SQLDatabase"
+oracle = "moai.database:SQLDatabase"
+"sqlite+pysqlite3" = "moai.database:SQLDatabase"
+
+[project.entry-points."moai.format"]
+oai_dc = "moai.metadata.oaidc:OAIDC"
+datacite = "moai.metadata.datacite:DataCite"
+oai_datacite = "moai.metadata.datacite:DataCite"
+iso19139 = "moai.metadata.iso:Iso"
+
+[project.entry-points."moai.provider"]
+file = "moai.provider.file:FileBasedContentProvider"
+list = "moai.provider.list:ListBasedContentProvider"
+oai = "moai.provider.oai:OAIBasedContentProvider"
+fedora = "moai.provider.feadora:FedoraBasedContentProvider"
+
+[project.entry-points."paste.app_factory"]
+main = "moai.wsgi:app_factory"
+
+[project.scripts]
+update_moai = "moai.tools:update_moai"
+
+[project.urls]
+Homepage = "https://www.uu.nl/en/research/yoda"
+Documentation = "https://utrechtuniversity.github.io/yoda/"
+Repository = "https://github.com/utrechtuniversity/yoda-moai"
+Issues = "https://github.com/utrechtuniversity/yoda-moai/issues"
+
+[tool.flake8]
+ignore = "E501"
+import-order-style = "smarkets"
+application-import-names = ["moai"]
+exclude = [
+    "venv"
+]
+
+[tool.setuptools]
+packages = ["moai"]
+
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev"
+local_scheme = "node-and-date"
