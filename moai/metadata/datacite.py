@@ -381,7 +381,7 @@ class DataCite(object):
             for identifier in related_resources:
                 relatedIdentifier = NONE.relatedIdentifier(identifier['Persistent_Identifier']['Identifier'])
                 relatedIdentifier.attrib['relatedIdentifierType'] = identifier['Persistent_Identifier']['Identifier_Scheme']
-                # For backward compatibilty keep the split here. It will not interfere with the new way Relation_Type is saved to yoda-metadata.json
+                # Keep the split here for backward compatibility. It will not interfere with the new way Relation_Type is saved to yoda-metadata.json
                 relatedIdentifier.attrib['relationType'] = identifier['Relation_Type'].split(':')[0]
                 relatedIdentifiers.append(relatedIdentifier)
 

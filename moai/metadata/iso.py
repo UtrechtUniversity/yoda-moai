@@ -465,7 +465,7 @@ class Iso(object):
         except (IndexError, KeyError):
             pass
 
-        # Resource contstraints
+        # Resource constraints
         try:
             license = data['License']
             license_uri = data['System']['License_URI']

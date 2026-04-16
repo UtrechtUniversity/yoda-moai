@@ -64,12 +64,12 @@ class IContentValidator(Interface):
 
     def set_logger(self, logger_instance):
         """Make the validator use a specific custom logger
-        (will probably be set automaticly in __init__)
+        (will probably be set automatically in __init__)
         """
 
     def validate_object(self, content_object):
         """Validates an object, return a Boolean to indicate validity,
-        Alle warnings and errors, should also be logged with the log object
+        All warnings and errors should also be logged with the log object
         that's provided as an argument of the set_logger method
         """
 
@@ -83,12 +83,12 @@ class IDatabaseUpdater(Interface):
 
     def set_database(self, database):
         """Make the updater use a specific (new) database
-        (will probably be set automaticly in __init__)
+        (will probably be set automatically in __init__)
         """
 
     def set_content_provider(self, content_provider):
         """Make the updater use a specific ContentProvider
-        (will probably be set automaticly in __init__)
+        (will probably be set automatically in __init__)
         """
 
     def set_content_class(self, content_object_class):
@@ -98,7 +98,7 @@ class IDatabaseUpdater(Interface):
 
     def set_logger(self, logger_instance):
         """Make the updater use a specific custom logger
-        (will probably be set automaticly in __init__)
+        (will probably be set automatically in __init__)
         """
 
     def update_provider(self, from_date=None):
@@ -113,7 +113,7 @@ class IDatabaseUpdater(Interface):
 
     def update_database(self, validate=True, supress_errors=False):
         """Iterates through update_database_iterate in a loop,
-        returns the number of errors that occured (int)
+        returns the number of errors that occurred (int)
         """
 
     def update_database_iterate(self, validate=True, supress_errors=False):
@@ -208,14 +208,14 @@ class IReadOnlyDatabase(Interface):
 class IDatabase(IReadOnlyDatabase):
 
     def flush_update(self):
-        """Called once by the database updater at the end of the update proces
+        """Called once by the database updater at the end of the update process
         (depending on the flush_threshold attribute in DatabaseUpdater)
         This allows the database to implement a batching strategy
         """
 
     def remove_content(self, id):
         """Remove all the content of a given id, returns a boolean to indicate
-        if the removal was succesful
+        if the removal was successful
         """
 
     def add_content(self, id, sets, record_data, meta_data):
@@ -223,17 +223,17 @@ class IDatabase(IReadOnlyDatabase):
         of data. The dictionaries should contain at least the keys that
         are needed for generating the get_record, get_metadata and get_keys
         requests.
-        Returns a boolean to indicate if the insertion was succesful
+        Returns a boolean to indicate if the insertion was successful
         """
 
     def add_set(self, id, name, description=None):
         """Add a set to the database
-        Returns a boolean to indicate if the insertion was succesful
+        Returns a boolean to indicate if the insertion was successful
         """
 
     def remove_set(self, id):
         """Remove set from the database
-        Returns a boolean to indicate if the removal was succesful
+        Returns a boolean to indicate if the removal was successful
         """
 
     def empty_database(self):
@@ -267,7 +267,7 @@ class IFeedConfig(Interface):
     sets_deleted = Attribute(
         "Records in this set will always be served as deleted OAI records "
         "this can be used as an alternative to sets_dissallowed.")
-    delay = Attribute("number of miliseconds to delay the feed")
+    delay = Attribute("number of milliseconds to delay the feed")
 
     def get_oai_id(self, internal_id):
         """Rename internal id into oai_id"""

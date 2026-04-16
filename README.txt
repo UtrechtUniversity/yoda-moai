@@ -37,7 +37,7 @@ When this process finishes, Moai and all its dependencies will be installed.
 Running in development mode
 ===========================
 
-The development server should never be used for production, it is convenient for testing and development. Note that you should always activate the virtualenv otherwise the dependecies will not be found
+The development server is meant to be used for testing and development. It should never be used in a production role. Note that you should always activate the virtualenv otherwise the dependencies will not be found.
 
 > cd moai
 > source bin/activate
@@ -69,7 +69,7 @@ name
 url
   The url of the oai feed (returned in oaipmh xml output)
 admin_email
-  The email adress of the amdin  (returned in Identify verb)
+  The email address of the administrator (returned by the Identify verb)
 formats
   Available metadata formats
 disallow_sets
@@ -107,7 +107,7 @@ The last option tells Moai where to store it's data, this is usually a sqlite da
 
 database = sqlite:///moai-example.db
 
-Now let's try to add these two xml files, let's first visit the oaipmh feed to make sure nothing is allready being served:
+Now let's try to add these two xml files, let's first visit the oaipmh feed to make sure nothing is already being served:
 
 http://localhost:8080/oai?verb=ListRecords&metadataPrefix=oai_dc
 

@@ -16,7 +16,7 @@ pluggable extensions.
 >>> from moai.core import MOAI
 >>> moai = MOAI(log)
 
-Lets make some fake data:
+Let's create some fake data:
 
 >>> content = [{'id':u'tester',
 ...            'label':u'Tester',
@@ -80,7 +80,7 @@ this will be done by the databaseUpdater class
 
 Besides some of the required values a content object must have,
 it can also have an arbitrary number of other values. We can ask
-the content object what theyre names are:
+the content object what their names are:
 
 >>> c.field_names()
 ['title']
@@ -89,7 +89,7 @@ We can then get the values. Note that this should always return a list
 >>> c.get_values('title')
 [u'This is a test']
 
-We can periodicly ask the dataprovider to update its list of content objects
+We can periodically ask the dataprovider to update its list of content objects
 A date is supplied so the provider only has to look for new objects younger
 then that date. The update call will return a list of new found ids
 
