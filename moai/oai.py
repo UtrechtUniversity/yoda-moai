@@ -23,7 +23,7 @@ def get_writer(prefix, config, db):
 class OAIServer(object):
     """An OAI-2.0 compliant oai server.
 
-    Underlying code is based on pyoai's oaipmh.server'
+    Underlying code is based on oaipmh.server'
     """
 
     def __init__(self, db, config):
@@ -43,13 +43,13 @@ class OAIServer(object):
             toolkit_description=False)
 
         version = ''
-        pyoai_version = importlib_version("pyoai")
+        oaipmh_version = importlib_version("oaipmh")
         moai_version = importlib_version("moai")
 
-        if pyoai_version and moai_version:
-            version = '<version>%s (using pyoai%s)</version>' % (
+        if oaipmh_version and moai_version:
+            version = '<version>%s (using oaipmh %s)</version>' % (
                 moai_version,
-                pyoai_version)
+                oaipmh_version)
         result.add_description(
             '<toolkit xsi:schemaLocation='
             '"http://oai.dlib.vt.edu/OAI/metadata/toolkit '
