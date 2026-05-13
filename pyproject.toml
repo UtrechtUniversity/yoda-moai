@@ -10,7 +10,7 @@ classifiers=[
     "Environment :: Web Environment"
 ]
 dependencies = [
-    'pyoai @ https://github.com/infrae/pyoai/archive/refs/tags/2.5.1.zip',
+    'oaipmh==3.1.0',
     'WSGIUtils',
     'wsgi_intercept',
     'webob',
