@@ -55,7 +55,7 @@ iso19139 = "moai.metadata.iso:Iso"
 file = "moai.provider.file:FileBasedContentProvider"
 list = "moai.provider.list:ListBasedContentProvider"
 oai = "moai.provider.oai:OAIBasedContentProvider"
-fedora = "moai.provider.feadora:FedoraBasedContentProvider"
+fedora = "moai.provider.fedora:FedoraBasedContentProvider"
 
 [project.entry-points."paste.app_factory"]
 main = "moai.wsgi:app_factory"
