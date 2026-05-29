@@ -44,11 +44,6 @@ class Iso(object):
             get_moai_log().error("Could not find metadata for " + str(metadata.record))
             return
 
-        # Is deze nog nodig?????
-        # Basic - will this be used as all will be GMD
-        # NONE =  ElementMaker(namespace=self.ns['gmd'],
-        #                    nsmap =self.ns)
-
         # GMD based elements
         GMD = ElementMaker(namespace=self.ns['gmd'],
                            nsmap=self.ns)
@@ -629,67 +624,3 @@ class Iso(object):
         element.append(iso)
 
         return
-
-###############################################################################################################
-
-
-'''
-
-# Contributors - ook weer Responsible parties!
-
-
-   Contributor types:   -> will all default in ISO role 'contributor' for now.
-        "ContactPerson",
-        "DataCollector",
-        "DataCurator",
-        "DataManager",
-        "Distributor",
-        "Editor",
-        "HostingInstitution",
-        "Producer",
-        "ProjectLeader",
-        "ProjectManager",
-        "ProjectMember",
-        "RegistrationAgency",
-        "RegistrationAuthority",
-        "RelatedPerson",
-        "Researcher",
-        "ResearchGroup",
-        "RightsHolder",
-        "Sponsor",
-        "Supervisor",
-        "WorkPackageLeader"
-'''
-
-
-'''
-         # ResourceType # DATACITE specifiek! Hoe dit in ISO onderbrengen!!!???
-
-         # List as defined by Ton/Maarten/Frans 20190603
-         dictResourceTypes = {'Dataset'  : 'Research Data',
-                              'DataPaper': 'Method Description',
-                              'Software' : 'Computer Code',
-                              'Text'     : 'Other Document'}
-
-         try:
-             resourceTypeGeneral = data['Data_Type']
-             resourceTypeLabel = dictResourceTypes[resourceTypeGeneral]
-             resourceType = GMD.resourceType(resourceTypeLabel)
-             resourceType.attrib['resourceTypeGeneral'] = resourceTypeGeneral
-             datacite.append(resourceType)
-         except KeyError:
-             resourceType = GMD.resourceType('Other Document')
-             resourceType.attrib['resourceTypeGeneral'] = 'Text'
-             datacite.append(resourceType)
-             pass
-'''
-
-
-'''
-         # Version  ## HOE DIT IN ISO te vatten!?
-         try:
-             datacite.append(GMD.version(data['Version']))
-         except KeyError:
-             pass
-
-'''
