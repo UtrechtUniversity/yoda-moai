@@ -10,7 +10,7 @@ classifiers=[
     "Environment :: Web Environment"
 ]
 dependencies = [
-    'oaipmh==3.1.0',
+    'oaipmh==3.2.1',
     'WSGIUtils',
     'wsgi_intercept',
     'webob',
