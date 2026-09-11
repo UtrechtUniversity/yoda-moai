@@ -39,7 +39,7 @@ class ServerOAIDCTest(ServerTest):
         self.assertIn("abc", xpath.strings('//dc:subject'))
         self.assertIn("Natural Sciences - Biological sciences (1.6)", xpath.strings('//dc:subject'))
         self.assertEqual(xpath.string('//dc:description'), 'Just for testing')
-        self.assertEqual(xpath.string('//dc:identifier'), 'doi:10.00012/UU01-9SYIHN')
+        self.assertEqual(set(xpath.strings('//dc:identifier')), {'doi:10.00012/UU01-9SYIHN', 'doi:10.00012/UU01-AJPP6S'})
         self.assertEqual(xpath.string('//dc:language'), 'en - English')
         self.assertEqual(xpath.string('//dc:rights'), 'Creative Commons Attribution 4.0 International Public License (https://creativecommons.org/licenses/by/4.0/legalcode) | Open Access (info:eu-repo/semantics/openAccess)')
         self.assertEqual(xpath.string('//dc:creator'), 'A B (Academic Center for Dentistry Amsterdam)')

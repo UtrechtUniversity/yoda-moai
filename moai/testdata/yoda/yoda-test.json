@@ -53,6 +53,7 @@
             "Identifier_Scheme": "DOI",
             "Identifier": "10.00012/UU01-9SYIHN"
         },
-        "License_URI": "https://creativecommons.org/licenses/by/4.0/legalcode"
+        "License_URI": "https://creativecommons.org/licenses/by/4.0/legalcode",
+        "Base_DOI": "10.00012/UU01-AJPP6S"
     }
 }

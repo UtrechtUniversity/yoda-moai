@@ -43,3 +43,4 @@ class ServerISO19139Test(ServerTest):
         self.assertEqual(xpath.string('//iso19139:language/gco:CharacterString'), 'en')
         self.assertEqual(xpath.string('//iso19139:useLimitation/gco:CharacterString'), 'Creative Commons Attribution 4.0 International Public License')
         self.assertEqual(xpath.string('//iso19139:individualName/gco:CharacterString'), 'A B')
+        self.assertEqual(xpath.string('//iso19139:identifier/iso19139:MD_Identifier[iso19139:description/gco:CharacterString="canonical DOI"]/iso19139:code/gco:CharacterString'), '10.00012/UU01-AJPP6S')

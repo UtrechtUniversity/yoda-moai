@@ -376,18 +376,27 @@ class DataCite(object):
             related_resources = data['Related_Resource']
         elif 'Related_Datapackage' in data:
             related_resources = data['Related_Datapackage']
+
+        relatedIdentifiers = NONE.relatedIdentifiers()
         try:
-            relatedIdentifiers = NONE.relatedIdentifiers()
             for identifier in related_resources:
                 relatedIdentifier = NONE.relatedIdentifier(identifier['Persistent_Identifier']['Identifier'])
                 relatedIdentifier.attrib['relatedIdentifierType'] = identifier['Persistent_Identifier']['Identifier_Scheme']
                 # Keep the split here for backward compatibility. It will not interfere with the new way Relation_Type is saved to yoda-metadata.json
                 relatedIdentifier.attrib['relationType'] = identifier['Relation_Type'].split(':')[0]
                 relatedIdentifiers.append(relatedIdentifier)
-
-            datacite.append(relatedIdentifiers)
         except KeyError:
             pass
+
+        # Add base DOI as isVersionOf relation.
+        if 'Base_DOI' in data.get('System', {}) and data['System']['Base_DOI']:
+            relatedIdentifier = NONE.relatedIdentifier(data['System']['Base_DOI'])
+            relatedIdentifier.attrib['relatedIdentifierType'] = 'DOI'
+            relatedIdentifier.attrib['relationType'] = 'IsVersionOf'
+            relatedIdentifiers.append(relatedIdentifier)
+
+        if len(relatedIdentifiers) > 0:
+            datacite.append(relatedIdentifiers)
 
         # Version
         try:
