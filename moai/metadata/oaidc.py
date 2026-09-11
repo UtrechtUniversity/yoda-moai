@@ -195,10 +195,19 @@ class OAIDC(object):
         except (IndexError, KeyError):
             pass
 
-        # Identifier
+        # Version DOI
         try:
             doi = get_ci('System')['Persistent_Identifier_Datapackage']['Identifier']
+            oai_dc.append(DC.description('version DOI'))
             oai_dc.append(DC.identifier('doi:' + doi))
+        except (IndexError, KeyError):
+            pass
+
+        # Canonical/Base DOI
+        try:
+            base_doi = get_ci('System')['Base_DOI']
+            oai_dc.append(DC.description('canonical DOI'))
+            oai_dc.append(DC.identifier('doi:' + base_doi))
         except (IndexError, KeyError):
             pass
 
