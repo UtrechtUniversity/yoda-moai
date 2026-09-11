@@ -150,7 +150,7 @@ class Iso(object):
         except (IndexError, KeyError):
             pass
 
-# DOI
+        # Version DOI
         try:
             identifier = GMD.identifier()
             MD_Identifier = GMD.MD_Identifier()
@@ -158,8 +158,44 @@ class Iso(object):
             CharacterString = GCO.CharacterString(data['System']['Persistent_Identifier_Datapackage']['Identifier'])
             code.append(CharacterString)
             MD_Identifier.append(code)
-            identifier.append(MD_Identifier)
 
+            codespace = GMD.codespace()
+            CharacterString_codespace = GCO.CharacterString('https://doi.org')
+            codespace.append(CharacterString_codespace)
+            MD_Identifier.append(codespace)
+
+            description = GMD.description()
+            CharacterString_desc = GCO.CharacterString('version DOI')
+            description.append(CharacterString_desc)
+            MD_Identifier.append(description)
+
+            identifier.append(MD_Identifier)
+            CI_Citation.append(identifier)
+
+        except (IndexError, KeyError):
+            pass
+
+        # Canonical/Base DOI
+        try:
+            base_doi = data['System']['Base_DOI']
+            identifier = GMD.identifier()
+            MD_Identifier = GMD.MD_Identifier()
+            code = GMD.code()
+            CharacterString = GCO.CharacterString(base_doi)
+            code.append(CharacterString)
+            MD_Identifier.append(code)
+
+            codespace = GMD.codespace()
+            CharacterString_codespace = GCO.CharacterString('https://doi.org')
+            codespace.append(CharacterString_codespace)
+            MD_Identifier.append(codespace)
+
+            description = GMD.description()
+            CharacterString_desc = GCO.CharacterString('canonical DOI')
+            description.append(CharacterString_desc)
+            MD_Identifier.append(description)
+
+            identifier.append(MD_Identifier)
             CI_Citation.append(identifier)
 
         except (IndexError, KeyError):

@@ -43,3 +43,4 @@ class ServerDataciteTest(ServerTest):
         self.assertEqual(xpath.string('//datacite:rights'), 'Creative Commons Attribution 4.0 International Public License')
         self.assertEqual(xpath.string('//datacite:creatorName'), 'A B')
         self.assertEqual(xpath.string('//datacite:affiliation'), 'Academic Center for Dentistry Amsterdam')
+        self.assertEqual(xpath.string('//datacite:relatedIdentifier[@relationType="IsVersionOf"][@relatedIdentifierType="DOI"]'), '10.00012/UU01-AJPP6S')
