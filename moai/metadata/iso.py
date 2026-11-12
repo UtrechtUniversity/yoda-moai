@@ -70,7 +70,7 @@ class Iso(object):
 
         # Language
         language = GMD.language()
-        LanguageCode = GMD.LanuageCode(languageVal)
+        LanguageCode = GMD.LanguageCode(languageVal)
         LanguageCode.attrib['codeList'] = 'http://www.loc.gov/standards/iso639-2/'
         LanguageCode.attrib['codeListValue'] = languageVal
 
